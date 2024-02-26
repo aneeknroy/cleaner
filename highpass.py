@@ -6,7 +6,8 @@ from scipy import signal
 
 # Load ECG data from CSV file
 ecg_data = pd.read_csv("ppg_Green/green1_AR.csv")
-noisy_ecg = ecg_data["PPG1"].values
+noisy_ecg_1 = ecg_data["PPG1"].values
+noisy_ecg_2 = ecg_data["PPG2"].values
 
 # Sampling frequency (assuming it's known)
 sampling_freq = 100  # Hz
@@ -21,38 +22,15 @@ cutoff = 0.5                # Cutoff Frequency in Hz
 nyquist_freq = 0.5 * sampling_freq   # Nyquist frequency in Hz
 order = 2                   # Filter order
 
-# Design highpass Filter
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from scipy import signal
-
-
-# Load ECG data from CSV file
-ecg_data = pd.read_csv("ppg_GREEN/green2_AR.csv")
-noisy_ecg_1 = ecg_data["PPG1"].values
-noisy_ecg_2 = ecg_data["PPG2"].values
-
-# Sampling frequency (assuming it's known)
-sampling_freq = 100  # Hz
-
 #--------------------------------------------------------------------------------------------------------------
 
 
-# Define Filter Parameters
-# BANDPASS parameters
+b, a = signal.butter(order, cutoff / nyquist_freq, btype='high')
 
-lowcut = 0.5                # Lower Cutoff Frequency in Hz
-highcut = 40.0              # Higher Cutoff Frequency in Hz
-nyquist_freq = 0.5 * 1000   # Nyquist frequency in Hz
-order = 2                   # Filter order
+# Apply highpass filter to PPG signal
+filtered_ppg_1 = signal.filtfilt(b, a, noisy_ecg_1)
+filtered_ppg_2 = signal.filtfilt(b, a, noisy_ecg_2)
 
-# Design Bandpass Filter
-b, a = signal.butter(order, [lowcut / nyquist_freq, highcut / nyquist_freq], btype='band')
-
-# Apply BandPass Filter to noisy ECG Signal
-filtered_ecg_1 = signal.filtfilt(b, a, noisy_ecg_1)
-filtered_ecg_2 = signal.filtfilt(b, a, noisy_ecg_2)
 
 
 # Create a figure with subplots
