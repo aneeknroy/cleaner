@@ -5,7 +5,7 @@ from scipy import signal
 
 
 # Load PPG data from CSV file
-ppg_data = pd.read_csv("ppg_Green/green2_AR.csv")
+ppg_data = pd.read_csv("ppg_GREEN/ir1_AR.csv")
 noisy_ppg_1 = ppg_data["PPG1"].values
 noisy_ppg_2 = ppg_data["PPG2"].values
 
@@ -27,7 +27,7 @@ b, a = signal.butter(order, cutoff / nyquist_freq, btype='high')
 
 # Apply highpass filter to PPG signal
 filtered_ppg_1 = signal.filtfilt(b, a, noisy_ppg_1)
-filtered_ppg_2 = signal.filtfilt(b, a, noisy_ppg_2)
+#filtered_ppg_2 = signal.filtfilt(b, a, noisy_ppg_2)
 
 # Baseline Correction
 baseline_ppg_1 = signal.medfilt(filtered_ppg_1, kernel_size=51)  # Apply a median filter as a baseline
