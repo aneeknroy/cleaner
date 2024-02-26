@@ -5,7 +5,7 @@ from scipy import signal
 
 
 # Load ECG data from CSV file
-ppg_data = pd.read_csv("ppg_RED/red1_AR.csv")
+ppg_data = pd.read_csv("ppg_GREEN/green5_AR.csv")
 noisy_ppg_1 = ppg_data["PPG1"].values
 noisy_ppg_2 = ppg_data["PPG2"].values
 
@@ -29,7 +29,7 @@ b, a = signal.butter(order, [lowcut / nyquist_freq, highcut / nyquist_freq], bty
 
 # Apply BandPass Filter to noisy ECG Signal
 filtered_ppg_1 = signal.filtfilt(b, a, noisy_ppg_1)
-filtered_ppg_2 = signal.filtfilt(b, a, noisy_ppg_2)
+#filtered_ppg_2 = signal.filtfilt(b, a, noisy_ppg_2)
 
 # Baseline Correction
 baseline_ppg_1 = signal.medfilt(filtered_ppg_1, kernel_size=51)  # Apply a median filter as a baseline
