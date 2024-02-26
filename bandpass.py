@@ -58,7 +58,7 @@ axs[1].grid(True)
 
 # Plot original and filtered signals
 axs[2].plot(ppg_data["VAL"], smoothed_ppg_1, color='purple', label='Corrected & Smoothed PPG1')
-axs[2].set_title('HIGHPASS Corrected & Smoothed - PPG1 Signal')
+axs[2].set_title('BANDPASS Corrected & Smoothed - PPG1 Signal')
 axs[2].set_xlabel('Val (s)')
 axs[2].set_ylabel('Amplitude')
 axs[2].grid(True)
