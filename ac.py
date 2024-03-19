@@ -34,7 +34,11 @@ def calculate_ac_component(ppg_ac):
 
 if __name__ == "__main__":
     # Load PPG data
-    timestamps, ppg_values = load_ppg_data("ppg_RED/red3_AR.csv")
+    #timestamps, ppg_values = load_ppg_data("ppg_GREEN/green1_AR.csv")
+    #timestamps, ppg_values = load_ppg_data("ppg_RED/red1_AR.csv")
+    timestamps, ppg_values = load_ppg_data("ppg_IR/ir1_AR.csv")
+
+
 
     # Remove DC component
     ppg_ac = remove_dc_component(ppg_values)
