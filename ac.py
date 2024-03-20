@@ -31,7 +31,6 @@ def calculate_ac_component(ppg_ac):
     return ac_component
 
 # AC represents the pulsatile physiological waveform attributed to cardiac synchronous changes in the blood volume with each heart beat
-
 if __name__ == "__main__":
     # Load PPG data
     #timestamps, ppg_values = load_ppg_data("ppg_GREEN/green1_AR.csv")
