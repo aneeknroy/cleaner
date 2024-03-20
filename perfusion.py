@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 # CODE TO CALCULATE THE Perfusion Index given the PPG Values
 
 # Load CSV data
-data = pd.read_csv("ppg_IR/ir5_AR.csv")
+data = pd.read_csv("ppg_GREEN/green1_AR.csv")
 ppg_signal = data['PPG1']
 
 
