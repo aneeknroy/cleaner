@@ -5,9 +5,13 @@ from scipy import signal
 
 
 # Load ECG data from CSV file
-ppg_data = pd.read_csv("ppg_GREEN/green5_AR.csv")
+ppg_data = pd.read_csv("ppg_GREEN/green1_AR.csv")
 noisy_ppg_1 = ppg_data["PPG1"].values
 noisy_ppg_2 = ppg_data["PPG2"].values
+
+print("NOISY PPG ONE TYPE ", type(noisy_ppg_1))
+print()
+
 
 
 # Sampling frequency (assuming it's known)
