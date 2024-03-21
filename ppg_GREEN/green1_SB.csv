@@ -999,12 +999,3 @@ VAL,PPG1,PPG2,BIOZ1,BIOZ2
 997,29390,29715,29,17
 998,29422,29710,28,15
 999,29417,29689,29,13
-,,,,
-ADC Sampling complete! Collected 1000 samples, printed 1000 samples in 8.771 seconds,,,
-,,,,
-,,,,
-*******************************************************,,,,
-Please enter a number to select an option,,,,
-1. Display information,,,,
-2. Settings,,,,
-3. Sample ADC,,,,

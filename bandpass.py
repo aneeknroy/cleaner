@@ -5,7 +5,7 @@ from scipy import signal
 
 
 # Load ECG data from CSV file
-ppg_data = pd.read_csv("ppg_GREEN/green1_AR.csv")
+ppg_data = pd.read_csv("ppg_GREEN/green1_SB.csv")
 noisy_ppg_1 = ppg_data["PPG1"].values
 noisy_ppg_2 = ppg_data["PPG2"].values
 
