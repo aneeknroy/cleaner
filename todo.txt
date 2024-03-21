@@ -2,13 +2,29 @@ Implement some neural net of sort with PyTorch
 
 There are several reasons why you might want to use a neural network for PPG (photoplethysmography) signal extraction:
 
-Noise Reduction: PPG signals can be corrupted by various sources of noise, such as motion artifacts, ambient light interference, and physiological noise. Neural networks have proven to be effective in denoising and filtering out these unwanted components from the raw PPG signal.
+Noise Reduction: PPG signals can be corrupted by various sources of noise, such as motion artifacts, 
+                ambient light interference, and physiological noise. Neural networks have proven to be effective 
+                in denoising and filtering out these unwanted components from the raw PPG signal.
+
 Feature Extraction: Neural networks can automatically learn and extract relevant features from the PPG signal, 
                     which can be useful for downstream tasks such as heart rate estimation, blood oxygen saturation 
                     measurement, or other physiological parameter derivations.
-                    
-Adaptive Processing: Neural networks can adaptively process PPG signals, which is particularly useful when dealing with signals from different individuals or varying environmental conditions. This adaptability can lead to more robust and accurate signal extraction.
-End-to-End Processing: Neural networks can be trained in an end-to-end manner, taking the raw PPG signal as input and directly outputting the desired physiological parameters or the denoised signal, eliminating the need for manual feature engineering or separate preprocessing steps.
-Generalization: With sufficient training data, neural networks can learn to generalize well to unseen PPG signals, making them suitable for deployment in real-world scenarios with varying conditions.
-Performance: When properly trained, neural networks can outperform traditional signal processing techniques in terms of accuracy, robustness, and computational efficiency, especially for complex tasks like PPG signal extraction.
-However, it's important to note that the success of neural networks for PPG signal extraction depends on several factors, such as the availability of high-quality labeled data for training, the choice of network architecture, and the careful tuning of hyperparameters. Additionally, the interpretability and explainability of neural network models can be a challenge, which may be important in some medical or healthcare applications.
+
+Adaptive Processing: Neural networks can adaptively process PPG signals, which is particularly useful when dealing with
+                        signals from different individuals or varying environmental conditions. This adaptability can lead to more robust and accurate signal extraction.
+
+End-to-End Processing: Neural networks can be trained in an end-to-end manner, taking the raw PPG signal as input and 
+                        directly outputting the desired physiological parameters or the denoised signal, eliminating 
+                        the need for manual feature engineering or separate preprocessing steps.
+
+Generalization: With sufficient training data, neural networks can learn to generalize well to unseen PPG signals, 
+                making them suitable for deployment in real-world scenarios with varying conditions.
+
+Performance: When properly trained, neural networks can outperform traditional signal processing techniques in terms 
+            of accuracy, robustness, and computational efficiency, especially for complex tasks like PPG signal extraction.
+
+
+However, it's important to note that the success of neural networks for PPG signal extraction depends on several factors, 
+such as the availability of high-quality labeled data for training, the choice of network architecture, and the careful 
+tuning of hyperparameters. Additionally, the interpretability and explainability of neural network models can be a challenge, 
+which may be important in some medical or healthcare applications.
