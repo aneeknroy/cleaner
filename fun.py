@@ -46,7 +46,7 @@ for epoch in range(num_epochs):
     outputs = model(noisy_ppg_tensor)
     
     # Assuming you have clean PPG data for training
-    clean_ppg = preprocess_ppg("clean_ppg_data.csv")
+    clean_ppg = preprocess_ppg("cleanPPG.csv")
     clean_ppg_tensor = torch.tensor(clean_ppg, dtype=torch.float32)
     clean_ppg_tensor = clean_ppg_tensor.unsqueeze(0)  # Add batch dimension
     
