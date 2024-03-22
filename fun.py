@@ -43,7 +43,7 @@ criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Train the model
-num_epochs = 1000
+num_epochs = 100
 for epoch in range(num_epochs):
     optimizer.zero_grad()
     outputs = model(noisy_ppg_tensor)
