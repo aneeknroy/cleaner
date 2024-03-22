@@ -32,6 +32,9 @@ noisy_ppg = preprocess_ppg("ppg_GREEN/green1_AR.csv")
 noisy_ppg_tensor = torch.tensor(noisy_ppg, dtype=torch.float32)
 noisy_ppg_tensor = noisy_ppg_tensor.unsqueeze(0)  # Add batch dimension
 
+# Resize input tensor to match the expected input size of the model
+noisy_ppg_tensor = noisy_ppg_tensor.view(1, -1)  # Reshape to 1x1000
+
 # Instantiate the neural network model
 model = PPGNet()
 
@@ -49,7 +52,15 @@ for epoch in range(num_epochs):
     clean_ppg = preprocess_ppg("cleanPPG.csv")
     clean_ppg_tensor = torch.tensor(clean_ppg, dtype=torch.float32)
     clean_ppg_tensor = clean_ppg_tensor.unsqueeze(0)  # Add batch dimension
-    
+
+    if noisy_ppg_tensor.size() == clean_ppg_tensor.size():
+        print("Tensors have the same size.")
+    else:
+        print("Tensors do not have the same size.")
+        print("noisy ppg tensor size : ", noisy_ppg_tensor.size())
+        print("clean ppg tensor size : ", clean_ppg_tensor.size())
+
+        
     loss = criterion(outputs, clean_ppg_tensor)
     loss.backward()
     optimizer.step()
