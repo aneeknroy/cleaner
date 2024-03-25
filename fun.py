@@ -68,17 +68,32 @@ print("Clean PPG Output shape:", clean_ppg_output.shape)
 print("Clean PPG Output:", clean_ppg_output)
 
 
-# Assuming 'clean_ppg_output' is your tensor with shape [1, 1000]
-# Convert the tensor to a numpy array for plotting
+# Convert the tensors to numpy arrays for plotting
+noisy_ppg_np = noisy_ppg_tensor.detach().cpu().numpy().flatten()
 clean_ppg_output_np = clean_ppg_output.detach().cpu().numpy().flatten()
 
 # Plotting
-plt.figure(figsize=(10, 5))
-plt.plot(clean_ppg_output_np)
-plt.title('Clean PPG Output')
+plt.figure(figsize=(15, 6))
+
+# Plot the original noisy PPG data
+plt.subplot(2, 1, 1)  # 2 rows, 1 column, 1st subplot
+plt.plot(noisy_ppg_np, label='Original Noisy PPG', color='gray')
+plt.title('Original Noisy PPG Data')
 plt.xlabel('Time')
 plt.ylabel('Amplitude')
 plt.grid(True)
+plt.legend()
+
+# Plot the cleaned PPG output from the model
+plt.subplot(2, 1, 2)  # 2 rows, 1 column, 2nd subplot
+plt.plot(clean_ppg_output_np, label='Cleaned PPG Output', color='blue')
+plt.title('Cleaned PPG Output')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+plt.legend()
+
+plt.tight_layout()
 plt.show()
 
 
