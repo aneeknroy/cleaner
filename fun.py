@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 from scipy import signal
+import matplotlib.pyplot as plt
+
 
 # Define the neural network model
 class PPGNet(nn.Module):
@@ -64,6 +66,20 @@ for epoch in range(num_epochs):
 clean_ppg_output = model(noisy_ppg_tensor)
 print("Clean PPG Output shape:", clean_ppg_output.shape)
 print("Clean PPG Output:", clean_ppg_output)
+
+
+# Assuming 'clean_ppg_output' is your tensor with shape [1, 1000]
+# Convert the tensor to a numpy array for plotting
+clean_ppg_output_np = clean_ppg_output.detach().cpu().numpy().flatten()
+
+# Plotting
+plt.figure(figsize=(10, 5))
+plt.plot(clean_ppg_output_np)
+plt.title('Clean PPG Output')
+plt.xlabel('Time')
+plt.ylabel('Amplitude')
+plt.grid(True)
+plt.show()
 
 
  # if noisy_ppg_tensor.size() == clean_ppg_tensor.size():
