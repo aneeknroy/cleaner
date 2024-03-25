@@ -13,7 +13,7 @@ class PPGNet(nn.Module):
         super(PPGNet, self).__init__()
         self.fc1 = nn.Linear(1000, 512)  # Input size 1000 (assuming sample size), output size 512
         self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 1)  # Output size 1 (clean PPG signal)
+        self.fc3 = nn.Linear(256, 1000)  # Output size 1 (clean PPG signal)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
@@ -42,24 +42,16 @@ model = PPGNet()
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+# Assuming you have clean PPG data for training
+clean_ppg = preprocess_ppg("cleanPPG.csv")
+clean_ppg_tensor = torch.tensor(clean_ppg, dtype=torch.float32)
+clean_ppg_tensor = clean_ppg_tensor.unsqueeze(0)  # Add batch dimension
+
 # Train the model
 num_epochs = 100
 for epoch in range(num_epochs):
     optimizer.zero_grad()
     outputs = model(noisy_ppg_tensor)
-    
-    # Assuming you have clean PPG data for training
-    clean_ppg = preprocess_ppg("cleanPPG.csv")
-    clean_ppg_tensor = torch.tensor(clean_ppg, dtype=torch.float32)
-    clean_ppg_tensor = clean_ppg_tensor.unsqueeze(0)  # Add batch dimension
-
-    if noisy_ppg_tensor.size() == clean_ppg_tensor.size():
-        print("Tensors have the same size.")
-    else:
-        print("Tensors do not have the same size.")
-        print("noisy ppg tensor size : ", noisy_ppg_tensor.size())
-        print("clean ppg tensor size : ", clean_ppg_tensor.size())
-
         
     loss = criterion(outputs, clean_ppg_tensor)
     loss.backward()
@@ -70,4 +62,13 @@ for epoch in range(num_epochs):
 
 # Perform inference
 clean_ppg_output = model(noisy_ppg_tensor)
-print("Clean PPG Output:", clean_ppg_output.item())
+print("Clean PPG Output shape:", clean_ppg_output.shape)
+print("Clean PPG Output:", clean_ppg_output)
+
+
+ # if noisy_ppg_tensor.size() == clean_ppg_tensor.size():
+    #     print("Tensors have the same size.")
+    # else:
+    #     print("Tensors do not have the same size.")
+    #     print("noisy ppg tensor size : ", noisy_ppg_tensor.size())
+    #     print("clean ppg tensor size : ", clean_ppg_tensor.size())
