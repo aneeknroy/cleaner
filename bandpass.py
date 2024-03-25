@@ -20,7 +20,7 @@ sampling_freq = 100  # Hz
 #--------------------------------------------------------------------------------------------------------------
 
 
-# Define Filter Parameters
+# Define Filter Parametersff
 # BANDPASS parameters
 
 lowcut = 0.5                         # Lower Cutoff Frequency in Hz
