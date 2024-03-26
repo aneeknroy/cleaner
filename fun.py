@@ -15,7 +15,7 @@ class PPGNet(nn.Module):
         super(PPGNet, self).__init__()
         self.fc1 = nn.Linear(1000, 512)  # Input size 1000 (assuming sample size), output size 512
         self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 1000)  # Output size 1 (clean PPG signal)
+        self.fc3 = nn.Linear(256, 1)  # Output size 1 (clean PPG signal)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
