@@ -45,15 +45,30 @@ if dacTwo == 0:
 
 def findRaw(outputName):
     outputName += '.csv'
+    raw1_data = []
+    raw2_data = []
     with open(outputName, 'a', newline='') as file:
-        data = []
-        ct = 0
         writer = csv.writer(file)
+        writer.writerow(['index', 'Raw_PPG1', 'Raw_PPG2'])
 
-        for i in ppgOne:
-            data.append([ct, i / (gainOne + (dacOne/ 5)*(2**16) )])
+        for i in range(len(ppgOne)):
+            raw1 = ppgOne[i] / (gainOne + (dacOne / 5) * (2 ** 16))
+            raw2 = ppgTwo[i] / (gainTwo + (dacTwo / 5) * (2 ** 16))
+            raw1_data.append(raw1)
+            raw2_data.append(raw2)
+            writer.writerow([i, raw1, raw2])
 
-        writer.writerows(data)
+    # Plot the raw data
+    plt.figure(figsize=(12, 6))
+    plt.subplot(2, 1, 1)
+    plt.plot(raw1_data)
+    plt.title("RAW1 Data")
+    plt.subplot(2, 1, 2)
+    plt.plot(raw2_data)
+    plt.title("RAW2 Data")
+    plt.tight_layout()
+    plt.show()
+
 
 findRaw('temp')
 
