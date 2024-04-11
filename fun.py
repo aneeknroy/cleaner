@@ -50,7 +50,7 @@ clean_ppg_tensor = torch.tensor(clean_ppg, dtype=torch.float32)
 clean_ppg_tensor = clean_ppg_tensor.unsqueeze(0)  # Add batch dimension
 
 # Train the model
-num_epochs = 100
+num_epochs = 100 # number of epochs
 for epoch in range(num_epochs):
     optimizer.zero_grad()
     outputs = model(noisy_ppg_tensor)
