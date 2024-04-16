@@ -72,12 +72,18 @@ y = []
 for file in glob(greenPath + '*.csv'):
     data = pd.read_csv(file)
     ppg_signal = data["PPG1"].values
+    print(f'Finished Reading ppg_signal for : {file}\n')
+    
+    print(f'About to start preprocessing features for : {file}\n')
     features = preprocess_signal(ppg_signal, fs, window_size, overlap)
     X.extend(features)
 
+    print(f'About to start labeling for : {file}\n')
     # Manually label the windows (0 for clean, 1 for artifact)
     labels = [0] * len(features)  # Replace with manual labeling
 
+    print(f'About to extend labels for : {file}\n')
+    print('------------------------------------------------------\n')
     y.extend(labels)
 
 X = np.array(X)
@@ -103,22 +109,22 @@ print(f'Recall: {recall:.3f}')
 print(f'F1-score: {f1:.3f}')
 
 # Apply the model to new PPG signals for artifact removal
-new_signal = ...  # Load a new PPG signal
-new_features = preprocess_signal(new_signal, fs, window_size, overlap)
-artifact_labels = rf_clf.predict(new_features)
+# new_signal = ...  # Load a new PPG signal
+# new_features = preprocess_signal(new_signal, fs, window_size, overlap)
+# artifact_labels = rf_clf.predict(new_features)
 
-# Reconstruct the denoised signal
-denoised_signal = np.zeros_like(new_signal)
-start_idx = 0
-for i, label in enumerate(artifact_labels):
-    window_samples = int(window_size * fs)
-    if label == 0:  # Clean window
-        denoised_signal[start_idx:start_idx + window_samples] = new_signal[start_idx:start_idx + window_samples]
-    else:  # Artifact window
-        # Apply signal reconstruction technique (e.g., interpolation)
-        denoised_signal[start_idx:start_idx + window_samples] = np.interp(
-            np.arange(start_idx, start_idx + window_samples),
-            np.concatenate([[start_idx - 1], np.arange(start_idx + window_samples, len(new_signal))]),
-            np.concatenate([[new_signal[start_idx - 1]], new_signal[start_idx + window_samples:]]))
+# # Reconstruct the denoised signal
+# denoised_signal = np.zeros_like(new_signal)
+# start_idx = 0
+# for i, label in enumerate(artifact_labels):
+#     window_samples = int(window_size * fs)
+#     if label == 0:  # Clean window
+#         denoised_signal[start_idx:start_idx + window_samples] = new_signal[start_idx:start_idx + window_samples]
+#     else:  # Artifact window
+#         # Apply signal reconstruction technique (e.g., interpolation)
+#         denoised_signal[start_idx:start_idx + window_samples] = np.interp(
+#             np.arange(start_idx, start_idx + window_samples),
+#             np.concatenate([[start_idx - 1], np.arange(start_idx + window_samples, len(new_signal))]),
+#             np.concatenate([[new_signal[start_idx - 1]], new_signal[start_idx + window_samples:]]))
 
-    start_idx += window_samples - int(overlap * window_samples)
+#     start_idx += window_samples - int(overlap * window_samples)
