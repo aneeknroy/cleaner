@@ -47,7 +47,7 @@ def process_and_add_columns(filepath):
 #print(df.head())
 
 
-file = "realPPG/AR_3_gainCheck_GREEN.csv"
+file = "realPPG/SB_3_gainCheck_GREEN.csv"
 ppg_data = pd.read_csv(file)
 
 ppgOne = ppg_data["PPG1"].values
