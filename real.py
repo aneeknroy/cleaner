@@ -9,6 +9,10 @@ from glob import glob
 import matplotlib.pyplot as plt
 from io import StringIO
 
+
+# TODO
+# 1. change original PPG before being edited to go through bandpass/highpass
+
 def process_and_add_columns(filepath):
     with open(filepath, 'r') as file:
         lines = file.readlines()
@@ -43,7 +47,7 @@ def process_and_add_columns(filepath):
 #print(df.head())
 
 
-file = "realPPG/IF_3_gainCheck_GREEN.csv"
+file = "realPPG/AR_3_gainCheck_GREEN.csv"
 ppg_data = pd.read_csv(file)
 
 ppgOne = ppg_data["PPG1"].values
@@ -162,32 +166,7 @@ def bandpassRaw(file):
     # Create a figure with subplots
     fig, axs = plt.subplots(3, 1, figsize=(12, 10))
 
-    # PPG 1
-    # Plot original and filtered signals
-    axs[0].plot(ppg_data["SampleCount"], noisy_ppg_1, color='blue', label='Original PPG1')
-    axs[0].set_title('BANDPASS Original - PPG1 Signal')
-    axs[0].set_xlabel('Val (s)')
-    axs[0].set_ylabel('Amplitude')
-    axs[0].grid(True)
-
-
-    axs[1].plot(ppg_data["SampleCount"], filtered_ppg_1, color='green', label='Filtered PPG1')
-    axs[1].set_xlabel('Val (s)')
-    axs[1].set_ylabel('Amplitude')
-    axs[1].set_title('BANDPASS filtered - PPG1 Signal')
-    axs[1].grid(True)
-
-    # Plot original and filtered signals
-    axs[2].plot(ppg_data["SampleCount"], smoothed_ppg_1, color='purple', label='Corrected & Smoothed PPG1')
-    axs[2].set_title('BANDPASS Corrected & Smoothed - PPG1 Signal')
-    axs[2].set_xlabel('Val (s)')
-    axs[2].set_ylabel('Amplitude')
-    axs[2].grid(True)
-
-    # Show the plot
-    plt.tight_layout()  # Adjust subplots to prevent overlap
-    plt.savefig('bandpass_graph.png')  # Save as PNG format
-    plt.show()
+    
 
 
 findRaw('temp')
