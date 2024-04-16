@@ -12,6 +12,7 @@ from io import StringIO
 
 # TODO
 # 1. change original PPG before being edited to go through bandpass/highpass
+# 2. 
 
 def process_and_add_columns(filepath):
     with open(filepath, 'r') as file:
