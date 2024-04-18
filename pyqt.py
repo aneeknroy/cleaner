@@ -1,32 +1,56 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QLabel, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QLabel, QFileDialog, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QStyleFactory  # Import QStyleFactory
+
 import subprocess
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("CSV Processing App")
+        self.setWindowTitle("PPG Data Processing")
         self.setGeometry(100, 100, 600, 200)
+
+        # Apply 'Cleanlooks' style
+        QApplication.setStyle(QStyleFactory.create('Cleanlooks'))  # Use QApplication directly
 
         self.initUI()
 
     def initUI(self):
-        # File Selection Row
-        self.file_textbox = QLineEdit(self)
-        self.file_textbox.setGeometry(10, 10, 400, 30)
+        main_widget = QWidget()
+        self.setCentralWidget(main_widget)
 
-        self.browse_button = QPushButton("Browse", self)
-        self.browse_button.setGeometry(420, 10, 80, 30)
+        layout = QVBoxLayout()
+        main_widget.setLayout(layout)
+
+        # File Selection Row
+        file_row_layout = QHBoxLayout()
+        layout.addLayout(file_row_layout)
+
+        file_label = QLabel("Selected CSV File:")
+        file_row_layout.addWidget(file_label)
+
+        self.file_textbox = QLineEdit()
+        self.file_textbox.setReadOnly(True)
+        file_row_layout.addWidget(self.file_textbox)
+
+        self.browse_button = QPushButton("Browse")
         self.browse_button.clicked.connect(self.browse_file)
+        file_row_layout.addWidget(self.browse_button)
 
         # Action Row
-        self.completion_label = QLabel("Not Completed", self)
-        self.completion_label.setGeometry(10, 60, 150, 30)
+        action_row_layout = QHBoxLayout()
+        layout.addLayout(action_row_layout)
 
-        self.run_button = QPushButton("Run Script", self)
-        self.run_button.setGeometry(170, 60, 100, 30)
+        completion_label = QLabel("Completion Indicator:")
+        action_row_layout.addWidget(completion_label)
+
+        self.completion_indicator = QLabel("Not Completed")
+        action_row_layout.addWidget(self.completion_indicator)
+
+        self.run_button = QPushButton("Run Script")
         self.run_button.clicked.connect(self.run_script)
+        action_row_layout.addWidget(self.run_button)
 
     def browse_file(self):
         options = QFileDialog.Options()
@@ -40,12 +64,12 @@ class MainWindow(QMainWindow):
             try:
                 # Run the script using subprocess
                 # Example command: python script.py input.csv
-                subprocess.run(["python", "bandpassFun.py", csv_file], check=True)
-                self.completion_label.setText("Completed")
+                subprocess.run(["python", "script.py", csv_file], check=True)
+                self.completion_indicator.setText("Completed")
             except subprocess.CalledProcessError:
-                self.completion_label.setText("Error occurred")
+                self.completion_indicator.setText("Error occurred")
         else:
-            self.completion_label.setText("No file selected")
+            self.completion_indicator.setText("No file selected")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
