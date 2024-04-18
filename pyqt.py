@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         # Circular Progress Bar
         self.circular_progress = CircularProgress()
         layout.addWidget(self.circular_progress)
-        self.circular_progress.hide()  # Initially hide the circular progress bar
+        #self.circular_progress.hide()  # Initially hide the circular progress bar
 
     def browse_file(self):
         options = QFileDialog.Options()
@@ -67,11 +67,10 @@ class MainWindow(QMainWindow):
 
     def run_script(self):
         csv_file = self.file_textbox.text()
+        self.circular_progress.show()
         if csv_file:
             try:
                 # Show circular progress bar
-                self.circular_progress.show()
-
                 # Run the script using subprocess
                 # Example command: python script.py input.csv
                 subprocess.run(["python", "bandpassFun.py", csv_file], check=True)

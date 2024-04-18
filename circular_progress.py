@@ -1,17 +1,18 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QSizePolicy  # Import QSizePolicy from QtWidgets
-from PyQt5.QtCore import Qt, QTimer, QPoint, QRectF
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QSizePolicy
+from PyQt5.QtCore import Qt, QTimer, QRectF
 from PyQt5.QtGui import QPainter, QColor, QPen
 
 class CircularProgress(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMinimumSize(100, 100)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Corrected
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         self.progress = 0
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateProgress)
+        self.startAnimation()  # Start animation automatically
 
     def setProgress(self, value):
         self.progress = value
