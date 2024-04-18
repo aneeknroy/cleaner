@@ -1,9 +1,10 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QLabel, QFileDialog, QVBoxLayout, QWidget, QHBoxLayout
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QStyleFactory  # Import QStyleFactory
+from PyQt5.QtWidgets import QStyleFactory
 
 import subprocess
+from circular_progress import CircularProgress  # Importing the CircularProgress widget
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -36,6 +37,7 @@ class MainWindow(QMainWindow):
 
         self.browse_button = QPushButton("Browse")
         self.browse_button.clicked.connect(self.browse_file)
+        self.browse_button.setStyleSheet("font-weight: bold;")  # Make the button text bold
         file_row_layout.addWidget(self.browse_button)
 
         # Action Row
@@ -52,6 +54,11 @@ class MainWindow(QMainWindow):
         self.run_button.clicked.connect(self.run_script)
         action_row_layout.addWidget(self.run_button)
 
+        # Circular Progress Bar
+        self.circular_progress = CircularProgress()
+        layout.addWidget(self.circular_progress)
+        self.circular_progress.hide()  # Initially hide the circular progress bar
+
     def browse_file(self):
         options = QFileDialog.Options()
         file_name, _ = QFileDialog.getOpenFileName(self, "Select CSV File", "", "CSV Files (*.csv)", options=options)
@@ -62,12 +69,18 @@ class MainWindow(QMainWindow):
         csv_file = self.file_textbox.text()
         if csv_file:
             try:
+                # Show circular progress bar
+                self.circular_progress.show()
+
                 # Run the script using subprocess
                 # Example command: python script.py input.csv
-                subprocess.run(["python", "script.py", csv_file], check=True)
+                subprocess.run(["python", "bandpassFun.py", csv_file], check=True)
                 self.completion_indicator.setText("Completed")
             except subprocess.CalledProcessError:
                 self.completion_indicator.setText("Error occurred")
+            finally:
+                # Hide circular progress bar after completion
+                self.circular_progress.hide()
         else:
             self.completion_indicator.setText("No file selected")
 
