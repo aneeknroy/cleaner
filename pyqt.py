@@ -55,8 +55,8 @@ class MainWindow(QMainWindow):
         action_row_layout.addWidget(self.run_button)
 
         # Circular Progress Bar
-        self.circular_progress = CircularProgress()
-        layout.addWidget(self.circular_progress)
+        #self.circular_progress = CircularProgress()
+        #layout.addWidget(self.circular_progress)
         #self.circular_progress.hide()  # Initially hide the circular progress bar
 
     def browse_file(self):
@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
 
     def run_script(self):
         csv_file = self.file_textbox.text()
-        self.circular_progress.show()
+        #self.circular_progress.show()
         if csv_file:
             try:
                 # Show circular progress bar
