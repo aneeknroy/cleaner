@@ -1,31 +1,31 @@
-PATHS-UP MultiModal Wearable,,,,
-Firmware Version: 0.7.6.1,,,,
-,,,,
-PPG Settings,,,,
-PPG Channel: 1,,,,
-DAC Value: 0 Voltage: 0.00V,,,,
-PGA Gain Setting: 7,,,,
-LED Wavelength: LED Green,,,,
-PPG Channel: 2,,,,
-DAC Value: 0 Voltage: 0.00V,,,,
-PGA Gain Setting: 7,,,,
-LED Wavelength: LED Green,,,,
-,,,,
-BioZ Settings,,,,
-"BioZ Carrier Frequency:	17000 Hz",,,,
-"Current Setting:	Off",,,,
-,,,,
-,,,,
-Contact Pressure,,,,
-w: 0.00 g, p: 0.00 mmHg,,,
-w: 0.00 g, p: 0.00 mmHg,,,
-,,,,
-Data Format: ASCII Unsigned Integers,,,,
-Sample Rate: 100,,,,
-Sample Time: 10,,,,
-Desired Samples: 1000,,,,
-,,,,
-Start Tick: 122104 at 12-33-16.330 2023-10-26,,,,
+PATHS-UP MultiModal Wearable
+Firmware Version: 0.7.6.1
+
+PPG Settings
+PPG Channel: 1
+DAC Value: 0 Voltage: 0.00
+PGA Gain Setting: 7
+LED Wavelength: LED Green
+PPG Channel: 2
+DAC Value: 0 Voltage: 0.00
+PGA Gain Setting: 7
+LED Wavelength: LED Green
+
+BioZ Settings
+"BioZ Carrier Frequency:	17000 Hz"
+"Current Setting:	Off"
+
+
+Contact Pressure
+w: 0.00 g, p: 0.00 mmHg
+w: 0.00 g, p: 0.00 mmHg
+
+Data Format: ASCII Unsigned Integers
+Sample Rate: 100
+Sample Time: 10
+Desired Samples: 1000
+
+Start Tick: 122104 at 12-33-16.330 2023-10-26
 Sample Count,PPG 1,PPG 2,BioZ 1,BioZ 2
 0,10151,5073,38,0
 1,10070,5070,40,0

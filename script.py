@@ -16,8 +16,8 @@ def extract_DAC_GAIN(file_path):
     data = pd.read_csv(file_path, delimiter=';', header=None, names=['Data'])
 
     # Initialize dictionaries to store the DAC values and PGA gain settings
-    dac_values = []
-    pga_gains = []
+    dac_values = [0,0]
+    pga_gains = [0,0]
     
      # Iterate over each row in the data
     for index, row in data.iterrows():
@@ -40,7 +40,8 @@ def findRaw(file, subjectName, folder):
 
     ppgOne = ppg_data["PPG1"].values
     ppgTwo = ppg_data["PPG2"].values
-
+    
+    print("about to extract")
     dacValues, gainValues = extract_DAC_GAIN(file)
 
     dacOne = dacValues[0]
@@ -54,12 +55,12 @@ def findRaw(file, subjectName, folder):
         os.makedirs(folder)
 
     # Construct the full path for the output file
-    outputFilePath = os.path.join(folder, 'raw' + subjectName + '.csv')
+    outputFilePath = os.path.join(folder, 'RAW_' + subjectName + '.csv')
 
     # Create and write data to the CSV file
     with open(outputFilePath, 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['index', 'PPG1', 'PPG2', 'originalPPG1', 'originalPPG2'])
+        writer.writerow(['VAL', 'PPG1', 'PPG2', 'originalPPG1', 'originalPPG2'])
 
         for i in range(len(ppgOne)):
             raw1 = ppgOne[i] / (gainOne + (dacOne / 5) * (2 ** 16))
@@ -159,7 +160,7 @@ def bandpass(csv_file, folder, subjectName):
 
     # Create DataFrame for CSV output
     output_data = pd.DataFrame({
-        'Sample Count': range(len(noisy_ppg_1)),
+        'VAL': range(len(noisy_ppg_1)),
         'PPG1': noisy_ppg_1,
         'smoothPPG1': smoothed_ppg_1,
         'PPG2': noisy_ppg_2,
@@ -202,8 +203,12 @@ def bandpass(csv_file, folder, subjectName):
 def process_ppg(csv_file, folder, subjectName):
 
     output_csv_path, acComponentsOriginal, perfComponentsOriginal = bandpass(csv_file, folder, subjectName)
+    print("originalBandpass completed")
     rawFilePath = findRaw(csv_file, subjectName, folder)
-    output_csv_pathRAW, acComponentsRAW, perfComponentsRAW = bandpass(rawFilePath, folder, subjectName)
+    print("raw file path found")
+    print(rawFilePath)
+    print("  ")
+    output_csv_pathRAW, acComponentsRAW, perfComponentsRAW = bandpass(rawFilePath, folder, subjectName+'RAW_')
     print("RETURNING RESULTSDF")
     return results_df
 
