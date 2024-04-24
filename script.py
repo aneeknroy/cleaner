@@ -12,15 +12,20 @@ from scipy import signal
 
 
 def extract_DAC_GAIN(file_path):
-    # Read the file using the determined delimiter
+     # Read the file using the determined delimiter
     data = pd.read_csv(file_path, delimiter=';', header=None, names=['Data'])
 
+    count = 0
+
     # Initialize dictionaries to store the DAC values and PGA gain settings
-    dac_values = [0,0]
-    pga_gains = [0,0]
+    dac_values = []
+    pga_gains = []
     
      # Iterate over each row in the data
     for index, row in data.iterrows():
+        if count == 2:
+            break
+
         # Check for DAC value and voltage
         if 'DAC Value' in row['Data']:
             # Extract the voltage
@@ -32,6 +37,7 @@ def extract_DAC_GAIN(file_path):
             # Extract the gain value
             gain = int(row['Data'].split(':')[1].strip())
             pga_gains.append(gain)
+            count += 1
 
     return dac_values, pga_gains
 

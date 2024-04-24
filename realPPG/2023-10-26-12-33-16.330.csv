@@ -3,11 +3,11 @@ Firmware Version: 0.7.6.1
 
 PPG Settings
 PPG Channel: 1
-DAC Value: 0 Voltage: 0.00
+DAC Value: 1 Voltage: 0.00
 PGA Gain Setting: 7
 LED Wavelength: LED Green
 PPG Channel: 2
-DAC Value: 0 Voltage: 0.00
+DAC Value: 1 Voltage: 0.00
 PGA Gain Setting: 7
 LED Wavelength: LED Green
 
