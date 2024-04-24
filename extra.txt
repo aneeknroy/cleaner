@@ -1,0 +1,114 @@
+def highpass(csv_file, folder):
+    # Load ECG data from CSV file
+    ppg_data = pd.read_csv(csv_file)
+    noisy_ppg_1 = ppg_data["PPG1"].values
+    noisy_ppg_2 = ppg_data["PPG2"].values
+
+
+    #---------------------------------------------------------------------------------------------------------
+    # HighPass Filter Parameters
+    sampling_freq = 100 # Hz
+
+    cutoff = 0.5                         # Cutoff Frequency in Hz
+    nyquist_freq = 0.5 * sampling_freq   # Nyquist frequency in Hz
+    order = 4                            # Filter order
+
+    # Design highpass Filter
+    b, a = signal.butter(order, cutoff / nyquist_freq, btype='high')
+
+    # Apply HighPass Filter to noisy ECG Signal
+    filtered_ppg_1 = signal.filtfilt(b, a, noisy_ppg_1)
+    filtered_ppg_2 = signal.filtfilt(b, a, noisy_ppg_2)
+
+
+    # Baseline Correction
+    baseline_ppg_1 = signal.medfilt(filtered_ppg_1, kernel_size=51)  # Apply a median filter as a baseline
+    corrected_ppg_1 = filtered_ppg_1 - baseline_ppg_1
+
+    baseline_ppg_2 = signal.medfilt(filtered_ppg_2, kernel_size=51)  # Apply a median filter as a baseline
+    corrected_ppg_2 = filtered_ppg_2 - baseline_ppg_2
+
+    # Smoothing
+    smoothed_ppg_1 = signal.savgol_filter(corrected_ppg_1, window_length=51, polyorder=3)
+    smoothed_ppg_2 = signal.savgol_filter(corrected_ppg_2, window_length=51, polyorder=3)
+
+    # Remove the DC Component
+    dc_component1 = np.mean(smoothed_ppg_1)
+    dc_component2 = np.mean(smoothed_ppg_2)
+
+    ppg_ac1 = smoothed_ppg_1 - dc_component1
+    ppg_ac2 = smoothed_ppg_2 - dc_component2
+
+
+    # Calculate the AC Component
+    peaks1, _ = find_peaks(ppg_ac1)  # Adjust height threshold as needed
+    troughs1, _ = find_peaks(-ppg_ac1)  # Detect troughs by inverting signal
+    ac_component1 = ppg_ac1[peaks1].mean() - ppg_ac1[troughs1].mean()
+
+    peaks2, _ = find_peaks(ppg_ac2)  # Adjust height threshold as needed
+    troughs2, _ = find_peaks(-ppg_ac2)  # Detect troughs by inverting signal
+    ac_component2 = ppg_ac2[peaks2].mean() - ppg_ac2[troughs2].mean()
+
+    # Calculate Pulse Amplitude
+    if len(peaks1) > 0 and len(troughs1) > 0:
+        pulse_amplitude1 = smoothed_ppg_1[peaks1].mean() - smoothed_ppg_1[troughs1].mean()
+    else:
+        pulse_amplitude1 = np.nan
+    
+    if len(peaks2) > 0 and len(troughs2) > 0:
+        pulse_amplitude2 = smoothed_ppg_2[peaks2].mean() - smoothed_ppg_2[troughs2].mean()
+    else:
+        pulse_amplitude2 = np.nan
+
+    # Calculate Baseline Amplitude
+    baseline_amplitude1 = smoothed_ppg_1.mean()
+    baseline_amplitude2 = smoothed_ppg_2.mean()
+
+    # Calculate Perfusion Index
+    if not np.isnan(pulse_amplitude1) and not np.isnan(baseline_amplitude1):
+        perfusion_index1 = (pulse_amplitude1 / baseline_amplitude1) * 100
+    else:
+        perfusion_index1 = np.nan
+
+     # Calculate Perfusion Index
+    if not np.isnan(pulse_amplitude2) and not np.isnan(baseline_amplitude2):
+        perfusion_index2 = (pulse_amplitude2 / baseline_amplitude2) * 100
+    else:
+        perfusion_index2 = np.nan
+    
+    acComponents = []
+    perfComponents = []
+
+    acComponents.append(ac_component1)
+    acComponents.append(ac_component2)
+
+    perfComponents.append(perfusion_index1)
+    perfComponents.append(perfusion_index2)
+    
+
+    fig, axs = plt.subplots(3, 1, figsize=(12, 10))
+
+    # Plot original and filtered signals
+    axs[0].plot(ppg_data["VAL"], noisy_ppg_1, color='blue', label='Original PPG1')
+    axs[0].set_title('BANDPASS Original - PPG1 Signal')
+    axs[0].set_xlabel('Val (s)')
+    axs[0].set_ylabel('Amplitude')
+    axs[0].grid(True)
+
+    axs[1].plot(ppg_data["VAL"], filtered_ppg_1, color='green', label='Filtered PPG1')
+    axs[1].set_xlabel('Val (s)')
+    axs[1].set_ylabel('Amplitude')
+    axs[1].set_title('BANDPASS filtered - PPG1 Signal')
+    axs[1].grid(True)
+
+    axs[2].plot(ppg_data["VAL"], smoothed_ppg_1, color='purple', label='Corrected & Smoothed PPG1')
+    axs[2].set_title('BANDPASS Corrected & Smoothed - PPG1 Signal')
+    axs[2].set_xlabel('Val (s)')
+    axs[2].set_ylabel('Amplitude')
+    axs[2].grid(True)
+
+    plt.tight_layout()  # Adjust subplots to prevent overlap
+    plt.savefig('bandpass_graph.png')  # Save as PNG format
+    plt.show()
+
+    return acComponents, perfComponents
